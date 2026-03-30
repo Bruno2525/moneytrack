@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoneyTrack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div class="topbar">
+      <a class="menu-button" href="settings.html" aria-label="Abrir configuracoes">
+        <span></span>
+        <span></span>
+        <span></span>
+      </a>
+    </div>
+
+    <header class="hero">
+      <div class="hero__copy">
+        <p class="eyebrow">MoneyTrack</p>
+        <h1>Controle financeiro com visão clara do seu mes.</h1>
+        <p class="hero__text">
+          Cadastre receitas e despesas, acompanhe o saldo em tempo real,
+          visualize graficos automaticos e descubra se uma compra cabe no seu momento atual.
+        </p>
+      </div>
+      <div class="hero__stats">
+        <article class="stat-card stat-card--income">
+          <span>Receitas</span>
+          <strong id="incomeTotal">R$ 0,00</strong>
+        </article>
+        <article class="stat-card stat-card--expense">
+          <span>Despesas</span>
+          <strong id="expenseTotal">R$ 0,00</strong>
+        </article>
+        <article class="stat-card stat-card--balance">
+          <span>Saldo</span>
+          <strong id="balanceTotal">R$ 0,00</strong>
+        </article>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="panel panel--form">
+        <div class="panel__header">
+          <h2>Nova movimentação</h2>
+          <p>Adicione receitas e despesas para manter seu historico sempre atualizado.</p>
+        </div>
+        <form id="transactionForm" class="transaction-form">
+          <label>
+            Tipo
+            <select name="type" required>
+              <option value="income">Receita</option>
+              <option value="expense">Despesa</option>
+            </select>
+          </label>
+          <label>
+            Titulo
+            <input type="text" name="title" placeholder="Ex.: Salario" required maxlength="60">
+          </label>
+          <label>
+            Valor
+            <input type="number" name="amount" placeholder="0,00" min="0.01" step="0.01" required>
+          </label>
+          <label>
+            Categoria
+            <input type="text" name="category" placeholder="Ex.: Moradia" required maxlength="40">
+          </label>
+          <label>
+            Data
+            <input type="date" name="date" required>
+          </label>
+          <button type="submit" class="button button--primary">Salvar movimentação</button>
+        </form>
+      </section>
+
+      <section class="panel panel--history">
+        <div class="panel__header">
+          <div>
+            <h2>Histórico financeiro</h2>
+            <p>Filtre as movimentacoes e acompanhe sua evolução.</p>
+          </div>
+          <div class="filters" role="group" aria-label="Filtros de movimentacoes">
+            <button class="filter-chip is-active" data-filter="all" type="button">Todas</button>
+            <button class="filter-chip" data-filter="income" type="button">Receitas</button>
+            <button class="filter-chip" data-filter="expense" type="button">Despesas</button>
+          </div>
+        </div>
+        <div id="historyList" class="history-list" aria-live="polite"></div>
+      </section>
+
+      <section class="panel panel--charts">
+        <div class="panel__header">
+          <div>
+            <h2>Gráficos automaticos</h2>
+            <p>Alterne o estilo da visualização nas configurações.</p>
+          </div>
+          <span class="chart-badge" id="chartTypeLabel">Pizza</span>
+        </div>
+        <canvas id="financeChart" width="640" height="360" aria-label="Grafico financeiro"></canvas>
+        <div id="chartLegend" class="chart-legend"></div>
+      </section>
+
+      <section class="panel panel--calculator">
+        <div class="panel__header">
+          <h2>Calculadora de compra</h2>
+          <p>Entenda se uma compra e viavel com base na sua realidade atual.</p>
+        </div>
+        <form id="purchaseForm" class="purchase-form">
+          <label>
+            Valor da compra
+            <input type="number" name="purchaseAmount" min="0" step="0.01" placeholder="0,00" required>
+          </label>
+        </form>
+        <div class="calculator-insight">
+          <span>Saldo atual considerado</span>
+          <strong id="calculatorBalance">R$ 0,00</strong>
+          <p id="calculatorProjection">Adicione o valor da compra para ver quanto sobra depois da analise, mantendo uma margem razoavel para guardar.</p>
+        </div>
+        <p id="calculatorSummary" class="calculator-summary">
+          Saldo atual considerado: R$ 0,00 -> Valor da compra: R$ 0,00 -> Resultado: Sobra prevista R$ 0,00.
+        </p>
+        <article id="purchaseResult" class="purchase-result purchase-result--neutral">
+          <span class="purchase-result__label">Status</span>
+          <strong>Preencha o valor da compra para analisar.</strong>
+          <p>O MoneyTrack usa o saldo atual e preserva uma margem razoavel para voce guardar parte do restante depois da compra.</p>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="storage.js"></script>
+  <script src="charts.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

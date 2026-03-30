@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoneyTrack | Configuracoes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="settings">
+  <div class="app-shell app-shell--settings">
+    <div class="topbar topbar--settings">
+      <a class="back-button" href="index.html" aria-label="Voltar para o painel">
+        <span class="back-button__icon">←</span>
+        <span>Voltar</span>
+      </a>
+    </div>
+
+    <main class="settings-page">
+      <section class="panel settings-hero">
+        <p class="eyebrow">Configuracoes</p>
+        <h1>Escolha como o MoneyTrack aparece e responde para voce.</h1>
+        <p class="hero__text">
+          Ajuste o tema, ative ou desative notificacoes visuais e selecione o grafico
+          que melhor combina com a forma como voce acompanha seus dados.
+        </p>
+      </section>
+
+      <section class="panel panel--settings-page">
+        <div class="panel__header">
+          <h2>Preferencias do aplicativo</h2>
+          <p>As alteracoes sao salvas automaticamente no seu navegador.</p>
+        </div>
+        <div class="settings-grid settings-grid--page">
+          <label class="setting-card">
+            <span>Modo escuro</span>
+            <small>Alterna entre visual claro e escuro em todas as telas.</small>
+            <input id="themeToggle" type="checkbox">
+          </label>
+          <label class="setting-card">
+            <span>Notificacoes visuais</span>
+            <small>Exibe pequenos avisos quando voce muda preferencias ou salva dados.</small>
+            <input id="notificationsToggle" type="checkbox">
+          </label>
+          <label class="setting-card setting-card--select">
+            <span>Tipo de grafico</span>
+            <small>Define a visualizacao padrao usada no painel principal.</small>
+            <select id="chartTypeSelect">
+              <option value="pie">Pizza</option>
+              <option value="bar">Barras</option>
+              <option value="line">Linha</option>
+            </select>
+          </label>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="storage.js"></script>
+  <script src="charts.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
