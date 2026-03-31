@@ -32,16 +32,16 @@
   };
 
   const hasDashboard = Boolean(
-    elements.transactionForm
-    && elements.historyList
-    && elements.incomeTotal
-    && elements.expenseTotal
-    && elements.balanceTotal
-    && elements.chartCanvas
-    && elements.chartLegend
-    && elements.chartTypeLabel
-    && elements.purchaseForm
-    && elements.purchaseResult
+    elements.transactionForm &&
+    elements.historyList &&
+    elements.incomeTotal &&
+    elements.expenseTotal &&
+    elements.balanceTotal &&
+    elements.chartCanvas &&
+    elements.chartLegend &&
+    elements.chartTypeLabel &&
+    elements.purchaseForm &&
+    elements.purchaseResult,
   );
 
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -50,22 +50,26 @@
   });
 
   const formatCurrency = (value) => formatter.format(Number(value) || 0);
-  const escapeHtml = (value) => String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
+  const escapeHtml = (value) =>
+    String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
 
   const formatDate = (value) => {
     if (!value) {
       return "--";
     }
 
-    return new Intl.DateTimeFormat("pt-BR").format(new Date(`${value}T00:00:00`));
+    return new Intl.DateTimeFormat("pt-BR").format(
+      new Date(`${value}T00:00:00`),
+    );
   };
 
-  const generateId = () => `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
+  const generateId = () =>
+    `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
 
   const showToast = (message) => {
     if (!state.settings.notifications || !elements.toast) {
@@ -81,17 +85,20 @@
   };
 
   const getSummary = () => {
-    const summary = state.transactions.reduce((accumulator, transaction) => {
-      const amount = Number(transaction.amount) || 0;
+    const summary = state.transactions.reduce(
+      (accumulator, transaction) => {
+        const amount = Number(transaction.amount) || 0;
 
-      if (transaction.type === "income") {
-        accumulator.income += amount;
-      } else {
-        accumulator.expense += amount;
-      }
+        if (transaction.type === "income") {
+          accumulator.income += amount;
+        } else {
+          accumulator.expense += amount;
+        }
 
-      return accumulator;
-    }, { income: 0, expense: 0 });
+        return accumulator;
+      },
+      { income: 0, expense: 0 },
+    );
 
     return {
       ...summary,
@@ -99,13 +106,15 @@
     };
   };
 
-  const getCategoryTotals = () => state.transactions
-    .filter((transaction) => transaction.type === "expense")
-    .reduce((accumulator, transaction) => {
-      const category = transaction.category.trim() || "Outros";
-      accumulator[category] = (accumulator[category] || 0) + Number(transaction.amount);
-      return accumulator;
-    }, {});
+  const getCategoryTotals = () =>
+    state.transactions
+      .filter((transaction) => transaction.type === "expense")
+      .reduce((accumulator, transaction) => {
+        const category = transaction.category.trim() || "Outros";
+        accumulator[category] =
+          (accumulator[category] || 0) + Number(transaction.amount);
+        return accumulator;
+      }, {});
 
   const renderSummary = () => {
     if (!hasDashboard) {
@@ -124,7 +133,10 @@
     }
 
     const filtered = state.transactions
-      .filter((transaction) => state.filter === "all" || transaction.type === state.filter)
+      .filter(
+        (transaction) =>
+          state.filter === "all" || transaction.type === state.filter,
+      )
       .sort((a, b) => new Date(b.date) - new Date(a.date));
 
     if (!filtered.length) {
@@ -137,7 +149,9 @@
       return;
     }
 
-    elements.historyList.innerHTML = filtered.map((transaction) => `
+    elements.historyList.innerHTML = filtered
+      .map(
+        (transaction) => `
       <article class="history-item">
         <div>
           <p class="history-item__title">${escapeHtml(transaction.title)}</p>
@@ -148,7 +162,9 @@
           ${transaction.type === "expense" ? "-" : "+"}${formatCurrency(transaction.amount)}
         </strong>
       </article>
-    `).join("");
+    `,
+      )
+      .join("");
   };
 
   const renderLegend = (segments) => {
@@ -156,12 +172,16 @@
       return;
     }
 
-    elements.chartLegend.innerHTML = segments.map((segment) => `
+    elements.chartLegend.innerHTML = segments
+      .map(
+        (segment) => `
       <span class="legend-item">
         <span class="legend-color" style="background:${segment.color}"></span>
         ${segment.label}: ${formatCurrency(segment.value)}
       </span>
-    `).join("");
+    `,
+      )
+      .join("");
   };
 
   const renderChart = () => {
@@ -178,7 +198,8 @@
       line: "Linha",
     };
 
-    elements.chartTypeLabel.textContent = chartLabels[state.settings.chartType] || "Pizza";
+    elements.chartTypeLabel.textContent =
+      chartLabels[state.settings.chartType] || "Pizza";
     renderLegend(segments);
     charts.render({
       canvas: elements.chartCanvas,
@@ -201,8 +222,10 @@
 
     let variant = "neutral";
     let title = "Preencha o valor da compra para analisar.";
-    let description = "O MoneyTrack usa o saldo atual e preserva uma margem razoavel para voce guardar parte do restante depois da compra.";
-    let projection = "Adicione o valor da compra para ver quanto sobra depois da analise, mantendo uma margem razoavel para guardar.";
+    let description =
+      "O MoneyTrack usa o saldo atual e preserva uma margem razoavel para voce guardar parte do restante depois da compra.";
+    let projection =
+      "Adicione o valor da compra para ver quanto sobra depois da analise, mantendo uma margem razoavel para guardar.";
     let summaryResult = "Sobra prevista R$ 0,00";
 
     elements.calculatorBalance.textContent = formatCurrency(balance);
@@ -213,27 +236,36 @@
       if (balance <= 0) {
         variant = "danger";
         title = "Compra nao compensatoria";
-        description = "Seu saldo atual ja esta zerado ou negativo, entao a compra tende a piorar a sua situacao financeira.";
+        description =
+          "Seu saldo atual ja esta zerado ou negativo, entao a compra tende a piorar a sua situacao financeira.";
         summaryResult = `Sobra prevista ${formatCurrency(remainingBalance)}`;
       } else if (purchaseAmount > balance) {
         variant = "danger";
         title = "Compra nao compensatoria";
-        description = "O valor da compra ultrapassa o saldo atual disponivel, entao ela nao fecha com a sua realidade agora.";
+        description =
+          "O valor da compra ultrapassa o saldo atual disponivel, entao ela nao fecha com a sua realidade agora.";
         summaryResult = `Sobra prevista ${formatCurrency(remainingBalance)}`;
-      } else if (remainingBalance >= savingsMargin && purchaseAmount <= idealSpendingLimit && usageRatio <= 0.35) {
+      } else if (
+        remainingBalance >= savingsMargin &&
+        purchaseAmount <= idealSpendingLimit &&
+        usageRatio <= 0.35
+      ) {
         variant = "safe";
         title = "Compra compensatoria";
-        description = "A compra cabe no seu saldo e ainda deixa uma parte razoavel guardada para voce manter reserva depois dela.";
+        description =
+          "A compra cabe no seu saldo e ainda deixa uma parte razoavel guardada para voce manter reserva depois dela.";
         summaryResult = `Sobra prevista ${formatCurrency(remainingBalance)}`;
       } else if (remainingBalance >= savingsMargin * 0.85) {
         variant = "warning";
         title = "Compra razoavel";
-        description = "A compra ainda cabe no saldo, mas deixa a sua margem de guardar dinheiro mais apertada do que o ideal.";
+        description =
+          "A compra ainda cabe no saldo, mas deixa a sua margem de guardar dinheiro mais apertada do que o ideal.";
         summaryResult = `Sobra prevista ${formatCurrency(remainingBalance)}`;
       } else {
         variant = "danger";
         title = "Compra pouco compensatoria";
-        description = "A compra ate pode caber no saldo, mas sobra pouco para guardar e sua reserva fica comprometida.";
+        description =
+          "A compra ate pode caber no saldo, mas sobra pouco para guardar e sua reserva fica comprometida.";
         summaryResult = `Sobra prevista ${formatCurrency(remainingBalance)}`;
       }
     }
@@ -327,7 +359,9 @@
   elements.filters.forEach((button) => {
     button.addEventListener("click", () => {
       state.filter = button.dataset.filter;
-      elements.filters.forEach((chip) => chip.classList.toggle("is-active", chip === button));
+      elements.filters.forEach((chip) =>
+        chip.classList.toggle("is-active", chip === button),
+      );
       renderHistory();
     });
   });
@@ -351,7 +385,9 @@
       applySettings();
       storage.saveSettings(state.settings);
       renderChart();
-      showToast(`Tema ${state.settings.theme === "dark" ? "escuro" : "claro"} ativado.`);
+      showToast(
+        `Tema ${state.settings.theme === "dark" ? "escuro" : "claro"} ativado.`,
+      );
     });
   }
 
@@ -370,7 +406,9 @@
       state.settings.chartType = event.target.value;
       storage.saveSettings(state.settings);
       renderChart();
-      showToast(`Grafico em ${elements.chartTypeSelect.options[elements.chartTypeSelect.selectedIndex].text.toLowerCase()}.`);
+      showToast(
+        `Grafico em ${elements.chartTypeSelect.options[elements.chartTypeSelect.selectedIndex].text.toLowerCase()}.`,
+      );
     });
   }
 

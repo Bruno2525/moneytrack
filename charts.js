@@ -1,5 +1,12 @@
 window.MoneyTrackCharts = (() => {
-  const chartColors = ["#1f8f6a", "#c34c44", "#c77a34", "#284b63", "#7d5ba6", "#3b82f6"];
+  const chartColors = [
+    "#1f8f6a",
+    "#c34c44",
+    "#c77a34",
+    "#284b63",
+    "#7d5ba6",
+    "#3b82f6",
+  ];
 
   const getThemeColor = (name, fallback) => {
     const value = getComputedStyle(document.body).getPropertyValue(name).trim();
@@ -11,7 +18,8 @@ window.MoneyTrackCharts = (() => {
   };
 
   const drawPieChart = (ctx, canvas, segments) => {
-    const total = segments.reduce((sum, segment) => sum + segment.value, 0) || 1;
+    const total =
+      segments.reduce((sum, segment) => sum + segment.value, 0) || 1;
     const radius = Math.min(canvas.width, canvas.height) * 0.28;
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
@@ -46,7 +54,10 @@ window.MoneyTrackCharts = (() => {
     const maxValue = Math.max(...segments.map((segment) => segment.value), 1);
     const baseY = canvas.height - 56;
     const chartHeight = canvas.height - 112;
-    const barWidth = Math.min(72, (canvas.width - 120) / Math.max(segments.length, 1));
+    const barWidth = Math.min(
+      72,
+      (canvas.width - 120) / Math.max(segments.length, 1),
+    );
 
     ctx.strokeStyle = getThemeColor("--panel-border", "#dddddd");
     ctx.lineWidth = 1;
@@ -93,8 +104,10 @@ window.MoneyTrackCharts = (() => {
     }
 
     const points = segments.map((segment, index) => {
-      const x = originX + (usableWidth / Math.max(segments.length - 1, 1)) * index;
-      const normalized = (segment.value - minValue) / Math.max(maxValue - minValue, 1);
+      const x =
+        originX + (usableWidth / Math.max(segments.length - 1, 1)) * index;
+      const normalized =
+        (segment.value - minValue) / Math.max(maxValue - minValue, 1);
       const y = originY - normalized * usableHeight;
       return { x, y, segment };
     });
@@ -139,7 +152,11 @@ window.MoneyTrackCharts = (() => {
       ctx.fillStyle = getThemeColor("--muted", "#666666");
       ctx.font = "600 18px Manrope, sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("Adicione movimentacoes para visualizar o grafico.", canvas.width / 2, canvas.height / 2);
+      ctx.fillText(
+        "Adicione movimentacoes para visualizar o grafico.",
+        canvas.width / 2,
+        canvas.height / 2,
+      );
       return;
     }
 
@@ -160,7 +177,11 @@ window.MoneyTrackCharts = (() => {
     const baseSegments = [
       { label: "Receitas", value: summary.income, color: chartColors[0] },
       { label: "Despesas", value: summary.expense, color: chartColors[1] },
-      { label: "Saldo", value: Math.max(summary.balance, 0), color: chartColors[3] },
+      {
+        label: "Saldo",
+        value: Math.max(summary.balance, 0),
+        color: chartColors[3],
+      },
     ].filter((segment) => segment.value > 0);
 
     const categorySegments = Object.entries(categoryTotals)
