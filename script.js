@@ -1,4 +1,4 @@
-(() => {
+﻿(() => {
   const storage = window.MoneyTrackStorage;
   const charts = window.MoneyTrackCharts;
 
@@ -33,15 +33,15 @@
 
   const hasDashboard = Boolean(
     elements.transactionForm &&
-    elements.historyList &&
-    elements.incomeTotal &&
-    elements.expenseTotal &&
-    elements.balanceTotal &&
-    elements.chartCanvas &&
-    elements.chartLegend &&
-    elements.chartTypeLabel &&
-    elements.purchaseForm &&
-    elements.purchaseResult,
+      elements.historyList &&
+      elements.incomeTotal &&
+      elements.expenseTotal &&
+      elements.balanceTotal &&
+      elements.chartCanvas &&
+      elements.chartLegend &&
+      elements.chartTypeLabel &&
+      elements.purchaseForm &&
+      elements.purchaseResult,
   );
 
   const formatter = new Intl.NumberFormat("pt-BR", {
@@ -142,8 +142,8 @@
     if (!filtered.length) {
       elements.historyList.innerHTML = `
         <article class="history-empty">
-          <strong>Nenhuma movimentacao encontrada.</strong>
-          <p>Cadastre receitas ou despesas para comecar seu historico.</p>
+          <strong>Nenhuma movimentação encontrada.</strong>
+          <p>Cadastre receitas ou despesas para começar seu histórico.</p>
         </article>
       `;
       return;
@@ -223,27 +223,27 @@
     let variant = "neutral";
     let title = "Preencha o valor da compra para analisar.";
     let description =
-      "O MoneyTrack usa o saldo atual e preserva uma margem razoavel para voce guardar parte do restante depois da compra.";
+      "O MoneyTrack usa o saldo atual e preserva uma margem razoável para você guardar parte do restante depois da compra.";
     let projection =
-      "Adicione o valor da compra para ver quanto sobra depois da analise, mantendo uma margem razoavel para guardar.";
+      "Adicione o valor da compra para ver quanto sobra depois da análise, mantendo uma margem razoável para guardar.";
     let summaryResult = "Sobra prevista R$ 0,00";
 
     elements.calculatorBalance.textContent = formatCurrency(balance);
 
     if (purchaseAmount > 0) {
-      projection = `Se comprar agora, seu saldo projetado fica em ${formatCurrency(remainingBalance)}. A margem recomendada para guardar com tranquilidade e ${formatCurrency(savingsMargin)}.`;
+      projection = `Se comprar agora, seu saldo projetado fica em ${formatCurrency(remainingBalance)}. A margem recomendada para guardar com tranquilidade é ${formatCurrency(savingsMargin)}.`;
 
       if (balance <= 0) {
         variant = "danger";
-        title = "Compra nao compensatoria";
+        title = "Compra não compensatória";
         description =
-          "Seu saldo atual ja esta zerado ou negativo, entao a compra tende a piorar a sua situacao financeira.";
+          "Seu saldo atual já está zerado ou negativo, então a compra tende a piorar a sua situação financeira.";
         summaryResult = `Sobra prevista ${formatCurrency(remainingBalance)}`;
       } else if (purchaseAmount > balance) {
         variant = "danger";
-        title = "Compra nao compensatoria";
+        title = "Compra não compensatória";
         description =
-          "O valor da compra ultrapassa o saldo atual disponivel, entao ela nao fecha com a sua realidade agora.";
+          "O valor da compra ultrapassa o saldo atual disponível, então ela não fecha com a sua realidade agora.";
         summaryResult = `Sobra prevista ${formatCurrency(remainingBalance)}`;
       } else if (
         remainingBalance >= savingsMargin &&
@@ -251,21 +251,21 @@
         usageRatio <= 0.35
       ) {
         variant = "safe";
-        title = "Compra compensatoria";
+        title = "Compra compensatória";
         description =
-          "A compra cabe no seu saldo e ainda deixa uma parte razoavel guardada para voce manter reserva depois dela.";
+          "A compra cabe no seu saldo e ainda deixa uma parte razoável guardada para você manter reserva depois dela.";
         summaryResult = `Sobra prevista ${formatCurrency(remainingBalance)}`;
       } else if (remainingBalance >= savingsMargin * 0.85) {
         variant = "warning";
-        title = "Compra razoavel";
+        title = "Compra razoável";
         description =
           "A compra ainda cabe no saldo, mas deixa a sua margem de guardar dinheiro mais apertada do que o ideal.";
         summaryResult = `Sobra prevista ${formatCurrency(remainingBalance)}`;
       } else {
         variant = "danger";
-        title = "Compra pouco compensatoria";
+        title = "Compra pouco compensatória";
         description =
-          "A compra ate pode caber no saldo, mas sobra pouco para guardar e sua reserva fica comprometida.";
+          "A compra até pode caber no saldo, mas sobra pouco para guardar e sua reserva fica comprometida.";
         summaryResult = `Sobra prevista ${formatCurrency(remainingBalance)}`;
       }
     }
@@ -352,7 +352,7 @@
       elements.transactionForm.reset();
       setDefaultDate();
       refresh();
-      showToast("Movimentacao salva com sucesso.");
+      showToast("Movimentação salva com sucesso.");
     });
   }
 
@@ -396,7 +396,7 @@
       state.settings.notifications = event.target.checked;
       storage.saveSettings(state.settings);
       if (state.settings.notifications) {
-        showToast("Notificacoes visuais ativadas.");
+        showToast("Notificações visuais ativadas.");
       }
     });
   }
@@ -407,7 +407,7 @@
       storage.saveSettings(state.settings);
       renderChart();
       showToast(
-        `Grafico em ${elements.chartTypeSelect.options[elements.chartTypeSelect.selectedIndex].text.toLowerCase()}.`,
+        `Gráfico em ${elements.chartTypeSelect.options[elements.chartTypeSelect.selectedIndex].text.toLowerCase()}.`,
       );
     });
   }
